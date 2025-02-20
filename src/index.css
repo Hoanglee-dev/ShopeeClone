@@ -2,6 +2,44 @@
 @theme {
   --color-orange: #ee4d2d;
 }
+@layer base {
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      max-width: 40rem; /* 640px */
+    }
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      max-width: 48rem; /* 768px */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 64rem; /* 1024px */
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container {
+      max-width: 80rem; /* 1280px */
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .container {
+      max-width: 90rem; /* 1440px */
+    }
+  }
+}
 
 html {
   height: 100%;

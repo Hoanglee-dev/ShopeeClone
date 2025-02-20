@@ -4,8 +4,8 @@ import Login from './pages/login'
 import Register from './pages/Register'
 import RegisterLayout from './layouts/RegisterLayout'
 
-export default function useRouteElement() {
-  const routeElement = useRoutes([
+export default function useRoutesElement() {
+  const routesElement = useRoutes([
     {
       path: '/',
       element: <ProductList />
@@ -27,5 +27,5 @@ export default function useRouteElement() {
       )
     }
   ])
-  return routeElement
+  return routesElement
 }
