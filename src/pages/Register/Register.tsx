@@ -3,27 +3,47 @@ import { Link } from 'react-router-dom'
 import Input from '~/components/input'
 import { schema, Schema } from '~/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
-
-interface FormData {
-  email: string
-  password: string
-  confirm_password: string
-}
+import { useMutation } from '@tanstack/react-query'
+import { registerAccount } from '~/Apis/auth.api'
+import { omit } from 'lodash'
+import { isAxiosUnprocessableEntityError } from '~/utils/utils'
+import { ResponseApi } from '~/types/utils.type'
+type FormData = Schema
 
 export default function Register() {
   const {
     register,
     handleSubmit,
-    getValues,
+    setError,
     formState: { errors }
-  } = useForm<Schema>({
+  } = useForm<FormData>({
     resolver: yupResolver(schema)
+  })
+  const registerAccountMutation = useMutation({
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => registerAccount(body)
   })
 
   const onSubmit = handleSubmit((data) => {
-    // console.log('🚀 ~ onSubmit ~ data:', data)
+    const body = omit(data, ['confirm_password'])
+    registerAccountMutation.mutate(body, {
+      onSuccess: (data) => {
+        console.log('🚀 ~ onSubmit ~ data:', data)
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityError<ResponseApi<Omit<FormData, 'confirm_password'>>>(error)) {
+          const formError = error.response?.data.data
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              setError(key as keyof Omit<FormData, 'confirm_password'>, {
+                type: 'Server',
+                message: formError[key as keyof Omit<FormData, 'confirm_password'>]
+              })
+            })
+          }
+        }
+      }
+    })
   })
-  console.log('🚀 ~ Register ~ errors:', errors)
   return (
     <div className='bg-orange'>
       <div className='max-w-7xl mx-auto py-5'>
