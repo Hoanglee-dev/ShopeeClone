@@ -1,10 +1,10 @@
 import { Category } from '~/types/category.type'
-import { QueryConfig } from '../../ProductList'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import { omit } from 'lodash'
 import classNames from 'classnames'
 import Ratingstar from '../RatingStar/Ratingstar'
 import Button from '~/components/Button'
+import { QueryConfig } from '~/hooks/useQueryConfig'
 
 interface Props {
   queryConfig: QueryConfig

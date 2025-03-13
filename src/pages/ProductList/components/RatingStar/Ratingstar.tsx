@@ -1,24 +1,14 @@
 import { createSearchParams, useNavigate } from 'react-router-dom'
-import { QueryConfig } from '../../ProductList'
-
-/**
- * star = 5
- * index 0 - 5
- * th1: index = 0 thì có 5 cái màu vàng và indexStar 0 - 4 là màu vàng
- * th1: index = 1 thì có 4 cái màu vàng và indexStar 0 - 3 là màu vàng
- * th1: index = 2 thì có 3 cái màu vàng và indexStar 0 - 2 là màu vàng
- * th1: index = 3 thì có 2 cái màu vàng và indexStar 0 - 1 là màu vàng
- * th1: index = 4 thì có 1 cái màu vàng và indexStar 0  là màu vàng
- */
+import { QueryConfig } from '~/hooks/useQueryConfig'
 
 interface Props {
   queryConfig: QueryConfig
 }
 
-export default function Ratingstar({ queryConfig }: Props) {
+export default function RatingStar({ queryConfig }: Props) {
   const navigate = useNavigate()
 
-  const handleFilterStar = (indexStar: Number) => {
+  const handleFilterStar = (indexStar: number) => {
     navigate({
       pathname: '/',
       search: createSearchParams({
@@ -27,6 +17,7 @@ export default function Ratingstar({ queryConfig }: Props) {
       }).toString()
     })
   }
+
   return (
     <div>
       <ul className='my-3'>
@@ -45,7 +36,7 @@ export default function Ratingstar({ queryConfig }: Props) {
                     .map((_, indexStar) => {
                       if (indexStar < 5 - index) {
                         return (
-                          <svg key={indexStar} viewBox='0 0 9.5 8' className='w-4 h-4 mr-1'>
+                          <svg key={`filled-${index}-${indexStar}`} viewBox='0 0 9.5 8' className='w-4 h-4 mr-1'>
                             <defs>
                               <linearGradient id='ratingStarGradient' x1='50%' x2='50%' y1='0%' y2='100%'>
                                 <stop offset={0} stopColor='#ffca11' />
@@ -73,7 +64,7 @@ export default function Ratingstar({ queryConfig }: Props) {
                         )
                       }
                       return (
-                        <svg viewBox='0 0 30 30' className='w-4 h-4 mr-1'>
+                        <svg key={`empty-${index}-${indexStar}`} viewBox='0 0 30 30' className='w-4 h-4 mr-1'>
                           <defs>
                             <linearGradient id='star__hollow' x1='50%' x2='50%' y1='0%' y2='99.0177926%'>
                               <stop offset='0%' stopColor='#FFD211' />
@@ -90,7 +81,7 @@ export default function Ratingstar({ queryConfig }: Props) {
                         </svg>
                       )
                     })}
-                  {index > 0 && <span className=' pt-1'>Trở lên</span>}
+                  {index > 0 && <span className='pt-1'>Trở lên</span>}
                 </div>
               </li>
             )
